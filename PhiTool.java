@@ -27,6 +27,11 @@ public class PhiTool {
       return this.parts.empty();
     }
 
+    private double random() {
+      Object[] array = this.parts.toArray();
+      return Double.parseDouble((array[(int)((Math.random() * array.length))]).toString());
+    }
+
     public String toString() {
       String phistack = "";
       ListIterator<Double> ListIterator = this.parts.listIterator(this.parts.size());
@@ -38,13 +43,12 @@ public class PhiTool {
   }
 
   public static void main(String[] args) {
-    PhiCut ratios;
-    if(args.length == 1 && isNumeric(args[0])) {
-      ratios = new PhiCut(Double.parseDouble(args[0]));
+    PhiCut ratios = new PhiCut(interpretInputDouble(args));
+    if(interpretRandom(args)) {
+      System.out.println(ratios.random());
     } else {
-      ratios = new PhiCut(100);
+      System.out.println(ratios);
     }
-    System.out.println(ratios);
   }
 
   private static boolean isNumeric(String str) {
@@ -54,5 +58,19 @@ public class PhiTool {
     } catch(NumberFormatException e) {
       return false;
     }
+  }
+
+  private static double interpretInputDouble(String[] args) {
+    for(int i=0; i<args.length; i++) {
+      if(isNumeric(args[i])) return Double.parseDouble(args[i]);
+    }
+    return 100;
+  }
+
+  private static boolean interpretRandom(String[] args) {
+    for(int i=0; i<args.length; i++) {
+      if(args[i].equals("--random")) return true;
+    }
+    return false;
   }
 }
