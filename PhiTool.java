@@ -23,8 +23,8 @@ public class PhiTool {
       return this.parts.pop();
     }
 
-    private boolean empty() {
-      return this.parts.empty();
+    private boolean isNotEmpty() {
+      return !this.parts.empty();
     }
 
     private double random() {
@@ -42,19 +42,20 @@ public class PhiTool {
     }
 
     private String mixPhiValues() {
-      double phi1, phi2;
+      double phi1, phi2, quality;
       String phimix = "";
-      while(!this.empty()) {
-        phi1 = this.pop();
+      while(this.isNotEmpty()) {
+        quality = phi1 = this.pop();
         phimix += "\n[" + phi1 + "]";
-        phi2 = randomPart();
-        for(int i=0; i<100; i++) {
+        for(int i=0; i<10; i++) {
+          phi2 = randomPart();
           if(phi2<phi1) {
             phimix += " " + phi2;
             phi1 -= phi2;
-            phi2 = randomPart();
           }
         }
+        phimix += String.format(" [QUAL %.0f",(100.5-(phi1/quality)*100));
+        phimix += "%]";
       }
       return phimix.trim();
     }
