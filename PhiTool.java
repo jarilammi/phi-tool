@@ -32,6 +32,33 @@ public class PhiTool {
       return Double.parseDouble((array[(int)((Math.random() * array.length))]).toString());
     }
 
+    private double[] storeParts() {
+      Object[] array = this.parts.toArray();
+      part = new double[array.length];
+      for(int i=0; i<array.length; i++) {
+        part[i] = Double.parseDouble(array[i].toString());
+      }
+      return part;
+    }
+
+    private String mixPhiValues() {
+      double phi1, phi2;
+      String phimix = "";
+      while(!this.empty()) {
+        phi1 = this.pop();
+        phimix += "\n[" + phi1 + "]";
+        phi2 = randomPart();
+        for(int i=0; i<100; i++) {
+          if(phi2<phi1) {
+            phimix += " " + phi2;
+            phi1 -= phi2;
+            phi2 = randomPart();
+          }
+        }
+      }
+      return phimix.trim();
+    }
+
     public String toString() {
       String phistack = "";
       ListIterator<Double> ListIterator = this.parts.listIterator(this.parts.size());
@@ -44,7 +71,9 @@ public class PhiTool {
 
   public static void main(String[] args) {
     PhiCut ratios = new PhiCut(interpretInputDouble(args));
-    if(interpretRandom(args)) {
+    if(interpretRandomFit(args)) {
+      System.out.println(ratios.mixPhiValues());
+    } else if(interpretRandom(args)) {
       System.out.println(ratios.random());
     } else {
       System.out.println(ratios);
@@ -67,10 +96,35 @@ public class PhiTool {
     return 100;
   }
 
+  private static double interpretSecondInputDouble(String[] args) {
+    boolean searching = false;
+    for(int i=0; i<args.length; i++) {
+      if(isNumeric(args[i]) && searching) return Double.parseDouble(args[i]);
+      if(isNumeric(args[i])) searching = true;
+    }
+    return 100;
+  }
+
   private static boolean interpretRandom(String[] args) {
     for(int i=0; i<args.length; i++) {
       if(args[i].equals("--random")) return true;
     }
     return false;
+  }
+
+  private static boolean interpretRandomFit(String[] args) {
+    boolean randomfit = false;
+    for(int i=0; i<args.length; i++) {
+      if(args[i].equals("--random-fit")) randomfit = true;
+    }
+    if(randomfit) {
+      PhiCut paint = new PhiCut(interpretSecondInputDouble(args));
+      paint.storeParts();
+    }
+    return randomfit;
+  }
+
+  private static double randomPart() {
+    return part[(int)(Math.random() * part.length)];
   }
 }
