@@ -42,10 +42,10 @@ public class PhiTool {
     }
 
     private String mixPhiValues() {
-      double phi1, phi2, quality;
+      double phi1, phi2, canvas;
       String phimix = "";
       while(this.isNotEmpty()) {
-        quality = phi1 = this.pop();
+        canvas = phi1 = this.pop();
         phimix += "\n[" + phi1 + "]";
         for(int i=0; i<10; i++) {
           phi2 = randomPart();
@@ -54,10 +54,20 @@ public class PhiTool {
             phi1 -= phi2;
           }
         }
-        phimix += String.format(" [QUAL %.0f",(100.5-(phi1/quality)*100));
-        phimix += "%]";
+        phimix += " " + getQuality(phi1, canvas);
       }
       return phimix.trim();
+    }
+
+    private String getQuality(double margin, double canvas) {
+      double qual = (100.5-(margin/canvas)*100);
+      if (qual>100) qual = 100;
+      if (qual>1) {
+        String quality = String.format("[QUAL %.0f",qual);
+        quality += "%]";
+        return quality.trim();
+      }
+      return "";
     }
 
     public String toString() {
