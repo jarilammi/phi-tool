@@ -87,7 +87,13 @@ public class PhiTool {
     } else if(interpretRandom(args)) {
       System.out.println(ratios.random());
     } else {
-      System.out.println(ratios);
+      System.out.println("Phi-tool.\n");
+      System.out.println("Usage:");
+      System.out.println("  java PhiTool [--random] <value>");
+      System.out.println("  java PhiTool --random-fit <value> <value>\n");
+      System.out.println("Options:");
+      System.out.println("  --random          Random golden cut from the specified value.");
+      System.out.println("  --random-fit      Random fits two different golden ratios with each other.");
     }
   }
 
