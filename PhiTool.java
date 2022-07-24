@@ -86,14 +86,18 @@ public class PhiTool {
       System.out.println(ratios.mixPhiValues());
     } else if(interpretRandom(args)) {
       System.out.println(ratios.random());
-    } else {
+    } else if(interpretHelpText(args)) {
       System.out.println("Phi-tool.\n");
       System.out.println("Usage:");
+      System.out.println("  java PhiTool [--help|--random|--random-fit]");
       System.out.println("  java PhiTool [--random] <value>");
       System.out.println("  java PhiTool --random-fit <value> <value>\n");
       System.out.println("Options:");
+      System.out.println("  --help            Show this help text.");
       System.out.println("  --random          Random golden cut from the specified value.");
       System.out.println("  --random-fit      Random fits two different golden ratios with each other.");
+    } else {
+      System.out.println(ratios);
     }
   }
 
@@ -139,6 +143,14 @@ public class PhiTool {
       paint.storeParts();
     }
     return randomfit;
+  }
+
+  private static boolean interpretHelpText(String[] args) {
+    if(args.length<1) return true;
+    for(int i=0; i<args.length; i++) {
+      if(args[i].equals("--help")) return true;
+    }
+    return false;
   }
 
   private static double randomPart() {
